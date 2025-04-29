@@ -62,11 +62,16 @@ const Game: React.FC = () => {
         setHighScore((prev) => Math.max(prev, finalScore));
         setIsGameOver(true);
 
-        // chama o service
+        console.log("Pontuação final:", finalScore);
+        console.log("Velocidade:", data.speed);
+        console.log("Tempo de sobrevivência:", data.timeAlive);
+        console.log("ID do jogador:", jogador?.id);
+
+        // chama o service da pontuação
         if (jogador) {
           enviarPontuacao({
             jogadorId: jogador.id,
-            pontuacaoBase: finalScore,
+            basePontos: finalScore,
             velocidade: data.speed,
             tempoSobrevivido: data.timeAlive,
           });
