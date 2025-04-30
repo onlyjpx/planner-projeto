@@ -8,8 +8,8 @@ public class OpenMeteoAdapter implements ClimaProvider {
 
     @Override
     public String obterCondicaoAtual(String cidade) {
-        String latitude = "-23.5505";
-        String longitude = "-46.6333";
+        String latitude = "-23.55";
+        String longitude = "-46.64";
 
         String url = String.format("https://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&current_weather=true", latitude, longitude);
 
