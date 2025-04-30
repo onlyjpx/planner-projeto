@@ -32,34 +32,7 @@ const Game: React.FC = () => {
 
   useEffect(() => {
     const iniciarJogo = async () => {
-      let corDeFundo = "#f4f4f4";
-
-      const clima = await buscarClima();
-      console.log("Clima:", clima);
-
-      if ("erro" in clima) {
-        console.warn("Erro ao buscar clima:", clima.erro);
-      } else {
-        switch (clima.condicao.toLowerCase()) {
-          case "ensolarado":
-          case "claro":
-            corDeFundo = "#FFD700";
-            break;
-          case "nublado":
-            corDeFundo = "#A9A9A9";
-            break;
-          case "chuva":
-          case "chuvoso":
-            corDeFundo = "#4682B4";
-            break;
-          case "neve":
-            corDeFundo = "#E0FFFF";
-            break;
-          default:
-            corDeFundo = "#f4f4f4";
-        }
-      }
-
+      const corDeFundo = "#f4f4f4";
       const config: Phaser.Types.Core.GameConfig = {
         type: Phaser.AUTO,
         width: window.innerWidth,
@@ -78,6 +51,15 @@ const Game: React.FC = () => {
 
       const game = new Phaser.Game(config);
       phaserInstance.current = game;
+
+      const loadClima = async () => {
+        const clima = await buscarClima();
+        if (!("erro" in clima)) {
+          const scene = game.scene.getScene("DinoScene") as DinoScene;
+          scene.mudarCenarioBaseadoNoClima(clima.condicao.toLowerCase());
+        }
+      };
+      loadClima();
 
       game.events.on("ready", () => {
         const scene = game.scene.getScene("DinoScene");
@@ -117,7 +99,7 @@ const Game: React.FC = () => {
     return () => {
       phaserInstance.current?.destroy(true);
     };
-  }, [jogador]);
+  }, []);
 
   return (
     <div className="relative w-full h-screen">

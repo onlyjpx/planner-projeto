@@ -11,9 +11,33 @@ export default class DinoScene extends Phaser.Scene {
   private spawnTimer = 0;
   private obstacleSpeed = -200;
   private difficultyTimer = 0;
+  private currentWeather = "default";
 
   constructor() {
     super('DinoScene');
+  }
+
+  public mudarCenarioBaseadoNoClima(condicao: string) {
+    this.currentWeather = condicao.toLowerCase();
+
+    switch (this.currentWeather) {
+      case "ensolarado":
+      case "claro":
+        this.cameras.main.setBackgroundColor('#FFD700');
+        break;
+      case "nublado":
+        this.cameras.main.setBackgroundColor('#A9A9A9');
+        break;
+      case "chuva":
+      case "chuvoso":
+        this.cameras.main.setBackgroundColor('#4682B4');
+        break;
+      case "neve":
+        this.cameras.main.setBackgroundColor('#E0FFFF');
+        break;
+      default:
+        this.cameras.main.setBackgroundColor('#f4f4f4');
+    }
   }
 
   create() {
